@@ -27,9 +27,7 @@ jobs:
           distribution: 'temurin'
           
       - name: Network Check
-        run: |
-          curl -I http://localhost:4444/status
-          curl -I http://moon:4444/status
+        run: curl -I http://moon:4444/status
 
       - name: Run tests
         run: mvn test
