@@ -10,7 +10,7 @@ public class BaseTest {
     static void setUp() {
         Configuration.remote = "http://localhost:4444/wd/hub";
         Configuration.browser = "chrome";
-        Configuration.browserVersion = "144.0";
+        Configuration.browserVersion = "140.0";
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.of(
