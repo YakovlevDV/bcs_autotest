@@ -12,18 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Start Moon
+      - name: Install and Start Moon Binary
         run: |
-          # Запускаем через переменные среды, но без лишних флагов
-          docker run -d --name moon \
-            -p 4444:4444 \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            -e MOON_LOCAL=true \
-            -e MOON_FORCE_ID=1 \
-            aerokube/moon:latest
+          # 1. Скачиваем сам бинарник Moon (он маленький и быстрый)
+          curl -L -o moon https://github.com
+          chmod +x moon
           
-          sleep 20
-          docker logs moon
+          # 2. Запускаем его в фоне в локальном режиме
+          # Он сам найдет Docker на раннере и будет штамповать браузеры
+          ./moon --local & 
+          
+          # 3. Ждем пару секунд
+          sleep 5
           curl -I http://localhost:4444/status
 
       - name: Setup JDK 21
