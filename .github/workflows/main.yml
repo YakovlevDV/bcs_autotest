@@ -12,17 +12,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Start Moon
+      - name: Start Moon2
         run: |
+          # Moon2 сам поймет, что он в Docker, если прокинуть сокет
           docker run -d --name moon \
             -p 4444:4444 \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -e MOON_MODE=local \
-            aerokube/moon:latest
+            aerokube/moon2:latest
           
+          # Даем 15 секунд на прогрев
           sleep 15
           
-          echo "--- MOON LOGS ---"
+          echo "--- MOON2 LOGS ---"
           docker logs moon
           
           echo "--- CHECKING CONNECTION ---"
