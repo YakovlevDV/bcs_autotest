@@ -8,7 +8,7 @@ public class BaseTest {
 
     @BeforeTest
     static void setUp() {
-        Configuration.remote = "http://localhost:4444/wd/hub";
+        Configuration.remote = "http://moon:4444/wd/hub";
         Configuration.browser = "chrome";
         Configuration.browserVersion = "latest";
 
