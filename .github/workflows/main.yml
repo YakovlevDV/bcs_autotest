@@ -25,6 +25,11 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+          
+      - name: Network Check
+        run: |
+          curl -I http://localhost:4444/status
+          curl -I http://moon:4444/status
 
       - name: Run tests
         run: mvn test
