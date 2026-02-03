@@ -9,25 +9,25 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      moon:
-        image: aerokube/moon:latest
-        ports:
-          - 4444:4444
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock
-
     steps:
       - uses: actions/checkout@v4
+
+      - name: Start Moon
+        # Запускаем Moon как обычный контейнер, прокидывая порт на хост
+        run: |
+          docker run -d --name moon \
+            -p 4444:4444 \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            aerokube/moon:latest
+          
+          # Ждем, пока Moon проснется на localhost
+          timeout 60s bash -c 'until curl -s http://localhost:4444/status; do sleep 2; done'
 
       - name: Setup JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
-          
-      - name: Network Check
-        run: curl -I http://moon:4444/status
 
       - name: Run tests
         run: mvn test
