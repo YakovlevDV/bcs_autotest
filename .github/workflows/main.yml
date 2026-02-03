@@ -1,0 +1,29 @@
+name: Moon Web Tests
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      moon:
+        image: aerokube/moon:latest
+        ports:
+          - 4444:4444
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup JDK 21
+        uses: action/checkout@v4
+        with:
+          java-version: '21'
+          distribution: 'temuri'
+
+      - name: Run tests
+        run: mvn test
