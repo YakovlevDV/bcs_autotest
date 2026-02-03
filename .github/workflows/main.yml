@@ -14,18 +14,20 @@ jobs:
 
       - name: Start Moon
         run: |
-          # Запускаем с флагами, которые отключают лишние проверки
+          # Запускаем без кастомных аргументов в конце, только -e
           docker run -d --name moon \
             -p 4444:4444 \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            aerokube/moon:latest \
-            --force-id 1 --log-level debug # Включаем дебаг-логи
+            -e MOON_FORCE_ID=1 \
+            aerokube/moon:latest
           
-          # Даем ему время и смотрим, что внутри
-          sleep 15
+          # Даем 20 секунд. Moon — парень неспешный.
+          sleep 20
+          
+          echo "--- MOON LOGS ---"
           docker logs moon
           
-          # Проверка связи
+          echo "--- CHECKING CONNECTION ---"
           curl -I http://localhost:4444/status
 
       - name: Setup JDK 21
