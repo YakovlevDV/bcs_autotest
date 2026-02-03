@@ -14,15 +14,13 @@ jobs:
 
       - name: Start Moon
         run: |
-          # Запускаем без кастомных аргументов в конце, только -e
           docker run -d --name moon \
             -p 4444:4444 \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            -e MOON_FORCE_ID=1 \
+            -e MOON_MODE=local \
             aerokube/moon:latest
           
-          # Даем 20 секунд. Moon — парень неспешный.
-          sleep 20
+          sleep 15
           
           echo "--- MOON LOGS ---"
           docker logs moon
