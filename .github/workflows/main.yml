@@ -14,16 +14,16 @@ jobs:
 
       - name: Start Moon
         run: |
+          # Запускаем через переменные среды, но без лишних флагов
           docker run -d --name moon \
             -p 4444:4444 \
             -v /var/run/docker.sock:/var/run/docker.sock \
-            aerokube/moon:latest --local
+            -e MOON_LOCAL=true \
+            -e MOON_FORCE_ID=1 \
+            aerokube/moon:latest
           
-          sleep 15
-          echo "--- MOON LOGS ---"
+          sleep 20
           docker logs moon
-          
-          echo "--- CHECKING CONNECTION ---"
           curl -I http://localhost:4444/status
 
       - name: Setup JDK 21
